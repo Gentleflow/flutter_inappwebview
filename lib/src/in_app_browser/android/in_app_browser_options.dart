@@ -9,7 +9,7 @@ class AndroidInAppBrowserOptions implements BrowserOptions, AndroidOptions {
   bool hideTitleBar;
 
   ///Set the action bar's title.
-  String? toolbarTopFixedTitle;
+  String toolbarTopFixedTitle;
 
   ///Set to `false` to not close the InAppBrowser when the user click on the Android back button and the WebView cannot go back to the history. The default value is `true`.
   bool closeOnCannotGoBack;

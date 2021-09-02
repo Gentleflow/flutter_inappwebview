@@ -15,7 +15,7 @@ class KeyUsage {
     KeyUsage.decipherOnly,
   ].toSet();
 
-  static KeyUsage? fromIndex(int? value) {
+  static KeyUsage fromIndex(int value) {
     if (value != null) {
       try {
         return KeyUsage.values
@@ -30,7 +30,7 @@ class KeyUsage {
   int toValue() => _value;
 
   String name() => _KeyUsageMapName.containsKey(this._value)
-      ? _KeyUsageMapName[this._value]!
+      ? _KeyUsageMapName[this._value]
       : "";
 
   @override

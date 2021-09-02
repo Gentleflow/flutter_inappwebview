@@ -78,8 +78,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tests/flutter_in_app_browser_test/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Dart SDK" level="project" />
     <orderEntry type="library" name="Flutter Plugins" level="project" />
-    <orderEntry type="library" name="Dart Packages" level="project" />
+    <orderEntry type="library" name="Dart SDK" level="project" />
   </component>
 </module>

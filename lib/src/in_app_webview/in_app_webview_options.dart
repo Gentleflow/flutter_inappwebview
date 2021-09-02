@@ -33,18 +33,18 @@ class WebViewOptions {
 ///Class that represents the options that can be used for a [WebView].
 class InAppWebViewGroupOptions {
   ///Cross-platform options.
-  late InAppWebViewOptions crossPlatform;
+  InAppWebViewOptions crossPlatform;
 
   ///Android-specific options.
-  late AndroidInAppWebViewOptions android;
+  AndroidInAppWebViewOptions android;
 
   ///iOS-specific options.
-  late IOSInAppWebViewOptions ios;
+  IOSInAppWebViewOptions ios;
 
   InAppWebViewGroupOptions(
-      {InAppWebViewOptions? crossPlatform,
-      AndroidInAppWebViewOptions? android,
-      IOSInAppWebViewOptions? ios}) {
+      {InAppWebViewOptions crossPlatform,
+      AndroidInAppWebViewOptions android,
+      IOSInAppWebViewOptions ios}) {
     this.crossPlatform = crossPlatform ?? InAppWebViewOptions();
     this.android = android ?? AndroidInAppWebViewOptions();
     this.ios = ios ?? IOSInAppWebViewOptions();
@@ -127,7 +127,7 @@ class InAppWebViewOptions
   bool mediaPlaybackRequiresUserGesture;
 
   ///Sets the minimum font size. The default value is `8` for Android, `0` for iOS.
-  int? minimumFontSize;
+  int minimumFontSize;
 
   ///Define whether the vertical scrollbar should be drawn or not. The default value is `true`.
   bool verticalScrollBarEnabled;
@@ -148,7 +148,7 @@ class InAppWebViewOptions
   ///Sets the content mode that the WebView needs to use when loading and rendering a webpage. The default value is [UserPreferredContentMode.RECOMMENDED].
   ///
   ///**NOTE**: available on iOS 13.0+.
-  UserPreferredContentMode? preferredContentMode;
+  UserPreferredContentMode preferredContentMode;
 
   ///Set to `true` to be able to listen at the [WebView.shouldInterceptAjaxRequest] event. The default value is `false`.
   bool useShouldInterceptAjaxRequest;
@@ -278,7 +278,7 @@ class InAppWebViewOptions
 
   static InAppWebViewOptions fromMap(Map<String, dynamic> map) {
     List<ContentBlocker> contentBlockers = [];
-    List<dynamic>? contentBlockersMapList = map["contentBlockers"];
+    List<dynamic> contentBlockersMapList = map["contentBlockers"];
     if (contentBlockersMapList != null) {
       contentBlockersMapList.forEach((contentBlocker) {
         contentBlockers.add(ContentBlocker.fromMap(

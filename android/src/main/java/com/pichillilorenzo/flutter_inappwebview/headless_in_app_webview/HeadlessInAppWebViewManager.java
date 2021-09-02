@@ -35,48 +35,58 @@ import io.flutter.plugin.common.MethodChannel.Result;
 
 public class HeadlessInAppWebViewManager implements MethodChannel.MethodCallHandler {
 
-  protected static final String LOG_TAG = "HeadlessInAppWebViewManager";
-  public MethodChannel channel;
-  public static final Map<String, HeadlessInAppWebView> webViews = new HashMap<>();
-  @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+    protected static final String LOG_TAG = "HeadlessInAppWebViewManager";
+    public MethodChannel channel;
+    public static final Map<String, HeadlessInAppWebView> webViews = new HashMap<>();
+    @Nullable
+    public InAppWebViewFlutterPlugin plugin;
 
-  public HeadlessInAppWebViewManager(final InAppWebViewFlutterPlugin plugin) {
-    this.plugin = plugin;
-    channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_headless_inappwebview");
-    channel.setMethodCallHandler(this);
-  }
-
-  @Override
-  public void onMethodCall(final MethodCall call, final Result result) {
-    final String id = (String) call.argument("id");
-
-    switch (call.method) {
-      case "run":
-        {
-          HashMap<String, Object> params = (HashMap<String, Object>) call.argument("params");
-          run(id, params);
-        }
-        result.success(true);
-        break;
-      default:
-        result.notImplemented();
+    public HeadlessInAppWebViewManager(final InAppWebViewFlutterPlugin plugin) {
+        this.plugin = plugin;
+        channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_headless_inappwebview");
+        channel.setMethodCallHandler(this);
     }
 
-  }
+    @Override
+    public void onMethodCall(final MethodCall call, final Result result) {
+        final String id = (String) call.argument("id");
+        switch (call.method) {
+            case "run": {
+                HashMap<String, Object> params = (HashMap<String, Object>) call.argument("params");
+                run(id, params);
+            }
+            result.success(true);
+            break;
+            case "loadUrl": {
+                HashMap<String, Object> params = (HashMap<String, Object>) call.argument("params");
+                loadUrl(id, params);
+            }
+            result.success(true);
+            break;
+            default:
+                result.notImplemented();
+        }
 
-  public void run(String id, HashMap<String, Object> params) {
-    FlutterWebView flutterWebView = new FlutterWebView(plugin, plugin.activity, id, params);
-    HeadlessInAppWebView headlessInAppWebView = new HeadlessInAppWebView(plugin, id, flutterWebView);
-    HeadlessInAppWebViewManager.webViews.put(id, headlessInAppWebView);
-    
-    headlessInAppWebView.prepare(params);
-    headlessInAppWebView.onWebViewCreated();
-    flutterWebView.makeInitialLoad(params);
-  }
+    }
 
-  public void dispose() {
-    channel.setMethodCallHandler(null);
-    webViews.clear();
-  }
+    public void run(String id, HashMap<String, Object> params) {
+        FlutterWebView flutterWebView = new FlutterWebView(plugin, plugin.activity, id, params);
+        HeadlessInAppWebView headlessInAppWebView = new HeadlessInAppWebView(plugin, id, flutterWebView);
+        HeadlessInAppWebViewManager.webViews.put(id, headlessInAppWebView);
+
+        headlessInAppWebView.prepare(params);
+        headlessInAppWebView.onWebViewCreated();
+        flutterWebView.makeInitialLoad(params);
+    }
+
+    public void loadUrl(String id, HashMap<String, Object> params) {
+        HeadlessInAppWebView webView = HeadlessInAppWebViewManager.webViews.get(id);
+        if (webView == null) return;
+        webView.flutterWebView.loadUrl(params);
+    }
+
+    public void dispose() {
+        channel.setMethodCallHandler(null);
+        webViews.clear();
+    }
 }

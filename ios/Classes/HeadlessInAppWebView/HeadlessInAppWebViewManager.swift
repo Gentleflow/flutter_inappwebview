@@ -39,6 +39,11 @@ public class HeadlessInAppWebViewManager: NSObject, FlutterPlugin {
                 HeadlessInAppWebViewManager.run(id: id, params: params)
                 result(true)
                 break
+            case "loadUrl":
+                let params = arguments!["params"] as! [String: Any?]
+                HeadlessInAppWebViewManager.loadUrl(id: id, params: params)
+                result(true)
+                break
             default:
                 result(FlutterMethodNotImplemented)
                 break
@@ -56,5 +61,10 @@ public class HeadlessInAppWebViewManager: NSObject, FlutterPlugin {
         headlessInAppWebView.prepare(params: params as NSDictionary)
         headlessInAppWebView.onWebViewCreated()
         flutterWebView.makeInitialLoad(params: params as NSDictionary)
+    }
+
+    public static func loadUrl(id: String, params: [String: Any?]) {
+        let headlessInAppWebView = HeadlessInAppWebViewManager.webViews[id]
+        headlessInAppWebView?.flutterWebView.loadUrl(params: params as NSDictionary)
     }
 }

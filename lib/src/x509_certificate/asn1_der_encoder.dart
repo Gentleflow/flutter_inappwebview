@@ -1,8 +1,10 @@
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
+
 import 'asn1_identifier.dart';
 
 class ASN1DEREncoder {
-  static Uint8List encodeSequence({required Uint8List content}) {
+  static Uint8List encodeSequence({@required Uint8List content}) {
     var encoded = Uint8List.fromList([]);
     encoded.add(ASN1Identifier.constructedTag |
         ASN1IdentifierTagNumber.SEQUENCE.toValue());
@@ -11,7 +13,7 @@ class ASN1DEREncoder {
     return Uint8List.fromList(encoded);
   }
 
-  static Uint8List contentLength({required int size}) {
+  static Uint8List contentLength({@required int size}) {
     if (size >= 128) {
       var lenBytes = Uint8List(size);
       while (lenBytes.first == 0) {

@@ -24,12 +24,12 @@ class IOSSafariOptions implements ChromeSafariBrowserOptions, IosOptions {
   ///Set the custom background color of the navigation bar and the toolbar.
   ///
   ///**NOTE**: available on iOS 10.0+.
-  Color? preferredBarTintColor;
+  Color preferredBarTintColor;
 
   ///Set the custom color of the control buttons on the navigation bar and the toolbar.
   ///
   ///**NOTE**: available on iOS 10.0+.
-  Color? preferredControlTintColor;
+  Color preferredControlTintColor;
 
   ///Set the custom modal presentation style when presenting the WebView. The default value is [IOSUIModalPresentationStyle.FULL_SCREEN].
   IOSUIModalPresentationStyle presentationStyle;
@@ -64,15 +64,15 @@ class IOSSafariOptions implements ChromeSafariBrowserOptions, IosOptions {
     options.entersReaderIfAvailable = map["entersReaderIfAvailable"];
     options.barCollapsingEnabled = map["barCollapsingEnabled"];
     options.dismissButtonStyle =
-        IOSSafariDismissButtonStyle.fromValue(map["dismissButtonStyle"])!;
+        IOSSafariDismissButtonStyle.fromValue(map["dismissButtonStyle"]);
     options.preferredBarTintColor =
         UtilColor.fromHex(map["preferredBarTintColor"]);
     options.preferredControlTintColor =
         UtilColor.fromHex(map["preferredControlTintColor"]);
     options.presentationStyle =
-        IOSUIModalPresentationStyle.fromValue(map["presentationStyle"])!;
+        IOSUIModalPresentationStyle.fromValue(map["presentationStyle"]);
     options.transitionStyle =
-        IOSUIModalTransitionStyle.fromValue(map["transitionStyle"])!;
+        IOSUIModalTransitionStyle.fromValue(map["transitionStyle"]);
     return options;
   }
 

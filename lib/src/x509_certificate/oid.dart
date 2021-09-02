@@ -107,7 +107,7 @@ class OID {
     OID.sha3_384,
   ].toSet();
 
-  static OID? fromValue(String? value) {
+  static OID fromValue(String value) {
     if (value != null) {
       try {
         return OID.values.firstWhere((element) => element.toValue() == value);
@@ -121,7 +121,7 @@ class OID {
   String toValue() => _value;
 
   String name() =>
-      _oidMapName.containsKey(this._value) ? _oidMapName[this._value]! : "";
+      _oidMapName.containsKey(this._value) ? _oidMapName[this._value] : "";
 
   @override
   String toString() => "($_value, ${name()})";

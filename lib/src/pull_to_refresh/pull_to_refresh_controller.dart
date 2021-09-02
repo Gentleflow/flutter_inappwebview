@@ -16,20 +16,20 @@ import 'pull_to_refresh_options.dart';
 ///
 ///**NOTE for Android**: to be able to use the "pull-to-refresh" feature, [AndroidInAppWebViewOptions.useHybridComposition] must be `true`.
 class PullToRefreshController {
-  late PullToRefreshOptions options;
-  MethodChannel? _channel;
+  PullToRefreshOptions options;
+  MethodChannel _channel;
 
   ///Event called when a swipe gesture triggers a refresh.
-  final void Function()? onRefresh;
+  final void Function() onRefresh;
 
-  PullToRefreshController({PullToRefreshOptions? options, this.onRefresh}) {
+  PullToRefreshController({PullToRefreshOptions options, this.onRefresh}) {
     this.options = options ?? PullToRefreshOptions();
   }
 
   Future<dynamic> handleMethod(MethodCall call) async {
     switch (call.method) {
       case "onRefresh":
-        if (onRefresh != null) onRefresh!();
+        if (onRefresh != null) onRefresh();
         break;
       default:
         throw UnimplementedError("Unimplemented ${call.method} method");

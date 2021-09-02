@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
+
 import 'asn1_decoder.dart';
 import 'asn1_object.dart';
 import 'oid.dart';
@@ -12,19 +14,19 @@ import 'asn1_distinguished_names.dart';
 ///Class that represents a X.509 certificate.
 ///This provides a standard way to access all the attributes of an X.509 certificate.
 class X509Certificate {
-  List<ASN1Object>? asn1;
-  ASN1Object? block1;
+  List<ASN1Object> asn1;
+  ASN1Object block1;
 
   ///Returns the encoded form of this certificate. It is
   ///assumed that each certificate type would have only a single
   ///form of encoding; for example, X.509 certificates would
   ///be encoded as ASN.1 DER.
-  Uint8List? encoded;
+  Uint8List encoded;
 
   static const beginPemBlock = "-----BEGIN CERTIFICATE-----";
   static const endPemBlock = "-----END CERTIFICATE-----";
 
-  X509Certificate({ASN1Object? asn1}) {
+  X509Certificate({ASN1Object asn1}) {
     if (asn1 != null) {
       var block1 = asn1.subAtIndex(0);
       if (block1 == null) {
@@ -33,7 +35,7 @@ class X509Certificate {
     }
   }
 
-  static X509Certificate fromData({required Uint8List data}) {
+  static X509Certificate fromData({@required Uint8List data}) {
     var decoded = utf8.decode(data, allowMalformed: true);
     if (decoded.contains(X509Certificate.beginPemBlock)) {
       return X509Certificate.fromPemData(pem: data);
@@ -42,7 +44,7 @@ class X509Certificate {
     }
   }
 
-  static X509Certificate fromDerData({required Uint8List der}) {
+  static X509Certificate fromDerData({@required Uint8List der}) {
     var asn1 = ASN1DERDecoder.decode(data: der.toList(growable: true));
     if (asn1.length > 0) {
       var block1 = asn1.first.subAtIndex(0);
@@ -57,7 +59,7 @@ class X509Certificate {
     throw ASN1ParseError();
   }
 
-  static X509Certificate fromPemData({required Uint8List pem}) {
+  static X509Certificate fromPemData({@required Uint8List pem}) {
     var derData = X509Certificate.decodeToDER(pemData: pem);
     if (derData == null) {
       throw ASN1ParseError();
@@ -66,7 +68,7 @@ class X509Certificate {
   }
 
   ///Read possible PEM encoding
-  static Uint8List? decodeToDER({required pemData}) {
+  static Uint8List decodeToDER({@required pemData}) {
     var pem = String.fromCharCodes(pemData);
     if (pem.contains(X509Certificate.beginPemBlock)) {
       var lines = pem.split("\n");
@@ -84,7 +86,7 @@ class X509Certificate {
         }
       }
 
-      Uint8List? derDataDecoded;
+      Uint8List derDataDecoded;
       try {
         derDataDecoded = Uint8List.fromList(utf8.encode(base64buffer));
       } catch (e) {}
@@ -101,20 +103,20 @@ class X509Certificate {
       '';
 
   ///Checks that the given date is within the certificate's validity period.
-  bool checkValidity({DateTime? date}) {
+  bool checkValidity({DateTime date}) {
     if (date == null) {
       date = DateTime.now();
     }
     if (notBefore != null && notAfter != null) {
-      return date.isAfter(notBefore!) && date.isBefore(notAfter!);
+      return date.isAfter(notBefore) && date.isBefore(notAfter);
     }
     return false;
   }
 
   ///Gets the version (version number) value from the certificate.
-  int? get version {
+  int get version {
     if (block1 != null) {
-      var v = firstLeafValue(block: block1!);
+      var v = firstLeafValue(block: block1);
       if (v is List<int>) {
         var index = toIntValue(v);
         if (index != null) {
@@ -126,13 +128,13 @@ class X509Certificate {
   }
 
   ///Gets the serialNumber value from the certificate.
-  List<int>? get serialNumber {
+  List<int> get serialNumber {
     var data = block1?.atIndex(X509BlockPosition.serialNumber)?.value;
     return data is List<int> ? data : null;
   }
 
   ///Returns the issuer (issuer distinguished name) value from the certificate as a String.
-  String? get issuerDistinguishedName {
+  String get issuerDistinguishedName {
     var issuerBlock = block1?.atIndex(X509BlockPosition.issuer);
     if (issuerBlock != null) {
       return ASN1DistinguishedNames.string(block: issuerBlock);
@@ -154,7 +156,7 @@ class X509Certificate {
     return result;
   }
 
-  String? issuer({String? oid, ASN1DistinguishedNames? dn}) {
+  String issuer({String oid, ASN1DistinguishedNames dn}) {
     if (oid == null && dn != null) {
       oid = dn.oid();
     }
@@ -176,7 +178,7 @@ class X509Certificate {
   }
 
   ///Returns the subject (subject distinguished name) value from the certificate as a String.
-  String? get subjectDistinguishedName {
+  String get subjectDistinguishedName {
     var subjectBlock = block1?.atIndex(X509BlockPosition.subject);
     if (subjectBlock != null) {
       return ASN1DistinguishedNames.string(block: subjectBlock);
@@ -198,7 +200,7 @@ class X509Certificate {
     return result;
   }
 
-  String? subject({String? oid, ASN1DistinguishedNames? dn}) {
+  String subject({String oid, ASN1DistinguishedNames dn}) {
     if (oid == null && dn != null) {
       oid = dn.oid();
     }
@@ -220,36 +222,36 @@ class X509Certificate {
   }
 
   ///Gets the notBefore date from the validity period of the certificate.
-  DateTime? get notBefore {
+  DateTime get notBefore {
     var data =
         block1?.atIndex(X509BlockPosition.dateValidity)?.subAtIndex(0)?.value;
     return data is DateTime ? data : null;
   }
 
   ///Gets the notAfter date from the validity period of the certificate.
-  DateTime? get notAfter {
+  DateTime get notAfter {
     var data =
         block1?.atIndex(X509BlockPosition.dateValidity)?.subAtIndex(1)?.value;
     return data is DateTime ? data : null;
   }
 
   ///Gets the signature value (the raw signature bits) from the certificate.
-  List<int>? get signature {
-    var data = asn1?[0].subAtIndex(2)?.value;
+  List<int> get signature {
+    var data = asn1[0].subAtIndex(2)?.value;
     return data is List<int> ? data : null;
   }
 
   ///Gets the signature algorithm name for the certificate signature algorithm.
-  String? get sigAlgName => OID.fromValue(sigAlgOID ?? '')?.name();
+  String get sigAlgName => OID.fromValue(sigAlgOID ?? '')?.name();
 
   ///Gets the signature algorithm OID string from the certificate.
-  String? get sigAlgOID {
+  String get sigAlgOID {
     var data = block1?.subAtIndex(2)?.subAtIndex(0)?.value;
     return data is String ? data : null;
   }
 
   ///Gets the DER-encoded signature algorithm parameters from this certificate's signature algorithm.
-  List<int>? get sigAlgParams => null;
+  List<int> get sigAlgParams => null;
 
   ///Gets a boolean array representing bits of the KeyUsage extension, (OID = 2.5.29.15).
   ///```
@@ -298,7 +300,7 @@ class X509Certificate {
       <String>[];
 
   ///Gets the informations of the public key from this certificate.
-  X509PublicKey? get publicKey {
+  X509PublicKey get publicKey {
     var pkBlock = block1?.atIndex(X509BlockPosition.publicKey);
     if (pkBlock != null) {
       return X509PublicKey(pkBlock: pkBlock);
@@ -334,41 +336,41 @@ class X509Certificate {
 
   ///Gets the certificate constraints path length from the
   ///critical BasicConstraints extension, (OID = 2.5.29.19).
-  BasicConstraintExtension? get basicConstraints =>
-      extensionObject(oid: OID.basicConstraints) as BasicConstraintExtension?;
+  BasicConstraintExtension get basicConstraints =>
+      extensionObject(oid: OID.basicConstraints) as BasicConstraintExtension;
 
   ///Gets the raw bits from the Subject Key Identifier (SKID) extension, (OID = 2.5.29.14).
-  SubjectKeyIdentifierExtension? get subjectKeyIdentifier =>
+  SubjectKeyIdentifierExtension get subjectKeyIdentifier =>
       extensionObject(oid: OID.subjectKeyIdentifier)
-          as SubjectKeyIdentifierExtension?;
+          as SubjectKeyIdentifierExtension;
 
   ///Gets the raw bits from the Authority Key Identifier extension, (OID = 2.5.29.35).
-  AuthorityKeyIdentifierExtension? get authorityKeyIdentifier =>
+  AuthorityKeyIdentifierExtension get authorityKeyIdentifier =>
       extensionObject(oid: OID.authorityKeyIdentifier)
-          as AuthorityKeyIdentifierExtension?;
+          as AuthorityKeyIdentifierExtension;
 
   ///Gets the list of certificate policies from the CertificatePolicies extension, (OID = 2.5.29.32).
-  CertificatePoliciesExtension? get certificatePolicies =>
+  CertificatePoliciesExtension get certificatePolicies =>
       extensionObject(oid: OID.certificatePolicies)
-          as CertificatePoliciesExtension?;
+          as CertificatePoliciesExtension;
 
   ///Gets the list of CRL distribution points from the CRLDistributionPoints extension, (OID = 2.5.29.31).
-  CRLDistributionPointsExtension? get cRLDistributionPoints =>
+  CRLDistributionPointsExtension get cRLDistributionPoints =>
       extensionObject(oid: OID.cRLDistributionPoints)
-          as CRLDistributionPointsExtension?;
+          as CRLDistributionPointsExtension;
 
   ///Gets the map of the format (as a key) and location (as a value) of additional information
   ///about the CA who issued the certificate in which this extension appears
   ///from the AuthorityInfoAccess extension, (OID = 1.3.6.1.5.5.5.7.1.1).
-  AuthorityInfoAccessExtension? get authorityInfoAccess =>
+  AuthorityInfoAccessExtension get authorityInfoAccess =>
       extensionObject(oid: OID.authorityInfoAccess)
-          as AuthorityInfoAccessExtension?;
+          as AuthorityInfoAccessExtension;
 
-  List<ASN1Object>? get extensionBlocks =>
+  List<ASN1Object> get extensionBlocks =>
       block1?.atIndex(X509BlockPosition.extensions)?.subAtIndex(0)?.sub;
 
   ///Gets the extension information of the given OID code or enum string value.
-  X509Extension? extensionObject({String? oidValue, OID? oid}) {
+  X509Extension extensionObject({String oidValue, OID oid}) {
     if (oidValue == null && oid != null) {
       oidValue = oid.toValue();
     }
@@ -436,10 +438,10 @@ class X509Certificate {
   }
 }
 
-dynamic firstLeafValue({required ASN1Object block}) {
+dynamic firstLeafValue({@required ASN1Object block}) {
   var sub = block.sub;
   if (sub != null && sub.length > 0) {
-    ASN1Object? subFirst;
+    ASN1Object subFirst;
     try {
       subFirst = sub.first;
     } catch (e) {}

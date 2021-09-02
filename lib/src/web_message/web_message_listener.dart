@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import '../in_app_webview/in_app_webview_controller.dart';
 import '../types.dart';
@@ -8,9 +9,9 @@ class WebMessageListener {
   final String jsObjectName;
 
   ///A set of matching rules for the allowed origins.
-  late Set<String> allowedOriginRules;
+  Set<String> allowedOriginRules;
 
-  JavaScriptReplyProxy? _replyProxy;
+  JavaScriptReplyProxy _replyProxy;
 
   ///Event that receives a message sent by a `postMessage()` on the injected JavaScript object.
   ///
@@ -22,13 +23,13 @@ class WebMessageListener {
   ///- [replyProxy] is used to reply back to the JavaScript object.
   ///
   ///**Official Android API**: https://developer.android.com/reference/androidx/webkit/WebViewCompat.WebMessageListener#onPostMessage(android.webkit.WebView,%20androidx.webkit.WebMessageCompat,%20android.net.Uri,%20boolean,%20androidx.webkit.JavaScriptReplyProxy)
-  OnPostMessageCallback? onPostMessage;
+  OnPostMessageCallback onPostMessage;
 
-  late MethodChannel _channel;
+  MethodChannel _channel;
 
   WebMessageListener(
-      {required this.jsObjectName,
-      Set<String>? allowedOriginRules,
+      {@required this.jsObjectName,
+      Set<String> allowedOriginRules,
       this.onPostMessage}) {
     this.allowedOriginRules =
         allowedOriginRules != null ? allowedOriginRules : Set.from(["*"]);
@@ -46,12 +47,12 @@ class WebMessageListener {
           _replyProxy = new JavaScriptReplyProxy(this);
         }
         if (onPostMessage != null) {
-          String? message = call.arguments["message"];
-          Uri? sourceOrigin = call.arguments["sourceOrigin"] != null
+          String message = call.arguments["message"];
+          Uri sourceOrigin = call.arguments["sourceOrigin"] != null
               ? Uri.parse(call.arguments["sourceOrigin"])
               : null;
           bool isMainFrame = call.arguments["isMainFrame"];
-          onPostMessage!(message, sourceOrigin, isMainFrame, _replyProxy!);
+          onPostMessage(message, sourceOrigin, isMainFrame, _replyProxy);
         }
         break;
       default:
@@ -83,7 +84,7 @@ class WebMessageListener {
 ///
 ///There is a 1:1 relationship between this object and the JavaScript object in a frame.
 class JavaScriptReplyProxy {
-  late WebMessageListener _webMessageListener;
+  WebMessageListener _webMessageListener;
 
   JavaScriptReplyProxy(WebMessageListener webMessageListener) {
     this._webMessageListener = webMessageListener;

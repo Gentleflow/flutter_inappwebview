@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../../types.dart';
@@ -16,7 +17,7 @@ class IOSWebStorageManager {
   ///
   ///[dataTypes] represents the website data types to fetch records for.
   Future<List<IOSWKWebsiteDataRecord>> fetchDataRecords(
-      {required Set<IOSWKWebsiteDataType> dataTypes}) async {
+      {@required Set<IOSWKWebsiteDataType> dataTypes}) async {
     List<IOSWKWebsiteDataRecord> recordList = [];
     List<String> dataTypesList = [];
     for (var dataType in dataTypes) {
@@ -48,8 +49,8 @@ class IOSWebStorageManager {
   ///
   ///[dataRecords] represents the website data records to delete website data for.
   Future<void> removeDataFor(
-      {required Set<IOSWKWebsiteDataType> dataTypes,
-      required List<IOSWKWebsiteDataRecord> dataRecords}) async {
+      {@required Set<IOSWKWebsiteDataType> dataTypes,
+      @required List<IOSWKWebsiteDataRecord> dataRecords}) async {
     List<String> dataTypesList = [];
     for (var dataType in dataTypes) {
       dataTypesList.add(dataType.toValue());
@@ -72,8 +73,8 @@ class IOSWebStorageManager {
   ///
   ///[date] represents a date. All website data modified after this date will be removed.
   Future<void> removeDataModifiedSince(
-      {required Set<IOSWKWebsiteDataType> dataTypes,
-      required DateTime date}) async {
+      {@required Set<IOSWKWebsiteDataType> dataTypes,
+      @required DateTime date}) async {
     List<String> dataTypesList = [];
     for (var dataType in dataTypes) {
       dataTypesList.add(dataType.toValue());

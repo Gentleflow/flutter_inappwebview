@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../../types.dart';
@@ -38,7 +39,7 @@ class AndroidWebStorageManager {
 
   ///Clears the storage currently being used by both the Application Cache and Web SQL Database APIs by the given [origin].
   ///The origin is specified using its string representation.
-  Future<void> deleteOrigin({required String origin}) async {
+  Future<void> deleteOrigin({@required String origin}) async {
     Map<String, dynamic> args = <String, dynamic>{};
     args.putIfAbsent("origin", () => origin);
     await _staticChannel.invokeMethod('deleteOrigin', args);
@@ -47,7 +48,7 @@ class AndroidWebStorageManager {
   ///Gets the storage quota for the Web SQL Database API for the given [origin].
   ///The quota is given in bytes and the origin is specified using its string representation.
   ///Note that a quota is not enforced on a per-origin basis for the Application Cache API.
-  Future<int> getQuotaForOrigin({required String origin}) async {
+  Future<int> getQuotaForOrigin({@required String origin}) async {
     Map<String, dynamic> args = <String, dynamic>{};
     args.putIfAbsent("origin", () => origin);
     return await _staticChannel.invokeMethod('getQuotaForOrigin', args);
@@ -55,7 +56,7 @@ class AndroidWebStorageManager {
 
   ///Gets the amount of storage currently being used by both the Application Cache and Web SQL Database APIs by the given [origin].
   ///The amount is given in bytes and the origin is specified using its string representation.
-  Future<int> getUsageForOrigin({required String origin}) async {
+  Future<int> getUsageForOrigin({@required String origin}) async {
     Map<String, dynamic> args = <String, dynamic>{};
     args.putIfAbsent("origin", () => origin);
     return await _staticChannel.invokeMethod('getUsageForOrigin', args);

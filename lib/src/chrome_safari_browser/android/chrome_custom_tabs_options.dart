@@ -17,7 +17,7 @@ class AndroidChromeCustomTabsOptions
   bool showTitle;
 
   ///Set the custom background color of the toolbar.
-  Color? toolbarBackgroundColor;
+  Color toolbarBackgroundColor;
 
   ///Set to `true` to enable the url bar to hide as the user scrolls down on the page. The default value is `false`.
   bool enableUrlBarHiding;
@@ -30,7 +30,7 @@ class AndroidChromeCustomTabsOptions
   ///value of null, all components in all applications will considered.
   ///If non-null, the Intent can only match the components in the given
   ///application package.
-  String? packageName;
+  String packageName;
 
   ///Set to `true` to enable Keep Alive. The default value is `false`.
   bool keepAliveEnabled;

@@ -12,7 +12,7 @@ import 'ios/web_storage_manager.dart';
 ///
 ///**NOTE for iOS**: available from iOS 9.0+.
 class WebStorageManager {
-  static WebStorageManager? _instance;
+  static WebStorageManager _instance;
   static const MethodChannel _staticChannel = WEB_STORAGE_STATIC_CHANNEL;
 
   AndroidWebStorageManager android = AndroidWebStorageManager();
@@ -20,13 +20,13 @@ class WebStorageManager {
 
   ///Gets the WebStorage manager shared instance.
   static WebStorageManager instance() {
-    return (_instance != null) ? _instance! : _init();
+    return (_instance != null) ? _instance : _init();
   }
 
   static WebStorageManager _init() {
     _staticChannel.setMethodCallHandler(_handleMethod);
     _instance = new WebStorageManager();
-    return _instance!;
+    return _instance;
   }
 
   static Future<dynamic> _handleMethod(MethodCall call) async {}

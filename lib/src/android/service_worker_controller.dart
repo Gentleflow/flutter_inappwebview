@@ -9,27 +9,27 @@ import '../types.dart';
 ///
 ///**Official Android API**: https://developer.android.com/reference/androidx/webkit/ServiceWorkerControllerCompat
 class AndroidServiceWorkerController {
-  static AndroidServiceWorkerController? _instance;
+  static AndroidServiceWorkerController _instance;
   static const MethodChannel _channel = const MethodChannel(
       'com.pichillilorenzo/flutter_inappwebview_android_serviceworkercontroller');
 
-  AndroidServiceWorkerClient? serviceWorkerClient;
+  AndroidServiceWorkerClient serviceWorkerClient;
 
   ///Gets the [AndroidServiceWorkerController] shared instance.
   static AndroidServiceWorkerController instance() {
-    return (_instance != null) ? _instance! : _init();
+    return (_instance != null) ? _instance : _init();
   }
 
   static AndroidServiceWorkerController _init() {
     _channel.setMethodCallHandler(_handleMethod);
     _instance = AndroidServiceWorkerController();
-    return _instance!;
+    return _instance;
   }
 
   static Future<dynamic> _handleMethod(MethodCall call) async {
     AndroidServiceWorkerController controller =
         AndroidServiceWorkerController.instance();
-    AndroidServiceWorkerClient? serviceWorkerClient =
+    AndroidServiceWorkerClient serviceWorkerClient =
         controller.serviceWorkerClient;
 
     switch (call.method) {
@@ -38,9 +38,9 @@ class AndroidServiceWorkerController {
             serviceWorkerClient.shouldInterceptRequest != null) {
           Map<String, dynamic> arguments =
               call.arguments.cast<String, dynamic>();
-          WebResourceRequest request = WebResourceRequest.fromMap(arguments)!;
+          WebResourceRequest request = WebResourceRequest.fromMap(arguments);
 
-          return (await serviceWorkerClient.shouldInterceptRequest!(request))
+          return (await serviceWorkerClient.shouldInterceptRequest(request))
               ?.toMap();
         }
         break;
@@ -90,7 +90,7 @@ class AndroidServiceWorkerController {
   ///**NOTE**: available on Android 24+.
   ///
   ///**Official Android API**: https://developer.android.com/reference/androidx/webkit/ServiceWorkerWebSettingsCompat#getCacheMode()
-  static Future<AndroidCacheMode?> getCacheMode() async {
+  static Future<AndroidCacheMode> getCacheMode() async {
     Map<String, dynamic> args = <String, dynamic>{};
     return AndroidCacheMode.fromValue(
         await _channel.invokeMethod('getCacheMode', args));
@@ -161,7 +161,7 @@ class AndroidServiceWorkerClient {
   ///[request] represents an object containing the details of the request.
   ///
   ///**NOTE**: available on Android 24+.
-  final Future<WebResourceResponse?> Function(WebResourceRequest request)?
+  final Future<WebResourceResponse> Function(WebResourceRequest request)
       shouldInterceptRequest;
 
   AndroidServiceWorkerClient({this.shouldInterceptRequest});

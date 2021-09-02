@@ -1014,7 +1014,7 @@ class MimeTypeResolver {
     "ice": "x-conference/x-cooltalk"
   };
 
-  static String? lookup(String path) {
+  static String lookup(String path) {
     assert(path.isNotEmpty);
     var extension = _ext(path);
     return extensionMap[extension];

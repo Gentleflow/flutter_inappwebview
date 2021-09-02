@@ -125,6 +125,13 @@ public class FlutterWebViewController: NSObject, FlutterPlatformView {
             webView!.load(webViewTransport.request)
         }
     }
+
+    public func loadUrl(params: NSDictionary) {
+         let initialUrlRequest = params["initialUrlRequest"] as? [String: Any?]
+         if(webView != nil){
+             load(initialUrlRequest: initialUrlRequest)
+         }
+    }
     
     func load(initialUrlRequest: [String:Any?]?, initialFile: String?, initialData: [String: String]?) {
         if let initialFile = initialFile {

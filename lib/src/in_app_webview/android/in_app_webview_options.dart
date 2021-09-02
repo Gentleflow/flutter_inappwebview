@@ -47,7 +47,7 @@ class AndroidInAppWebViewOptions
   ///Configures the WebView's behavior when a secure origin attempts to load a resource from an insecure origin.
   ///
   ///**NOTE**: available on Android 21+.
-  AndroidMixedContentMode? mixedContentMode;
+  AndroidMixedContentMode mixedContentMode;
 
   ///Enables or disables content URL access within WebView. Content URL access allows WebView to load content from a content provider installed in the system. The default value is `true`.
   bool allowContentAccess;
@@ -58,7 +58,7 @@ class AndroidInAppWebViewOptions
 
   ///Sets the path to the Application Caches files. In order for the Application Caches API to be enabled, this option must be set a path to which the application can write.
   ///This option is used one time: repeated calls are ignored.
-  String? appCachePath;
+  String appCachePath;
 
   ///Sets whether the WebView should not load image resources from the network (resources accessed via http and https URI schemes). The default value is `false`.
   bool blockNetworkImage;
@@ -68,7 +68,7 @@ class AndroidInAppWebViewOptions
 
   ///Overrides the way the cache is used. The way the cache is used is based on the navigation type. For a normal page load, the cache is checked and content is re-validated as needed.
   ///When navigating back, content is not revalidated, instead the content is just retrieved from the cache. The default value is [AndroidCacheMode.LOAD_DEFAULT].
-  AndroidCacheMode? cacheMode;
+  AndroidCacheMode cacheMode;
 
   ///Sets the cursive font family name. The default value is `"cursive"`.
   String cursiveFontFamily;
@@ -85,7 +85,7 @@ class AndroidInAppWebViewOptions
   ///Disables the action mode menu items according to menuItems flag.
   ///
   ///**NOTE**: available on Android 24+.
-  AndroidActionModeMenuItem? disabledActionModeMenuItems;
+  AndroidActionModeMenuItem disabledActionModeMenuItems;
 
   ///Sets the fantasy font family name. The default value is `"fantasy"`.
   String fantasyFontFamily;
@@ -96,13 +96,13 @@ class AndroidInAppWebViewOptions
   ///Set the force dark mode for this WebView. The default value is [AndroidForceDark.FORCE_DARK_OFF].
   ///
   ///**NOTE**: available on Android 29+.
-  AndroidForceDark? forceDark;
+  AndroidForceDark forceDark;
 
   ///Sets whether Geolocation API is enabled. The default value is `true`.
   bool geolocationEnabled;
 
   ///Sets the underlying layout algorithm. This will cause a re-layout of the WebView.
-  AndroidLayoutAlgorithm? layoutAlgorithm;
+  AndroidLayoutAlgorithm layoutAlgorithm;
 
   ///Sets whether the WebView loads pages in overview mode, that is, zooms out the content to fit on screen by width.
   ///This setting is taken into account when the content width is greater than the width of the WebView control, for example, when [useWideViewPort] is enabled.
@@ -166,7 +166,7 @@ class AndroidInAppWebViewOptions
 
   ///Regular expression used by [WebView.shouldOverrideUrlLoading] event to cancel navigation requests for frames that are not the main frame.
   ///If the url request of a subframe matches the regular expression, then the request of that subframe is canceled.
-  String? regexToCancelSubFramesLoading;
+  String regexToCancelSubFramesLoading;
 
   ///Set to `true` to enable Flutter's new Hybrid Composition. The default value is `false`.
   ///Hybrid Composition is supported starting with Flutter v1.20+.
@@ -184,11 +184,11 @@ class AndroidInAppWebViewOptions
   ///Sets the WebView's over-scroll mode.
   ///Setting the over-scroll mode of a WebView will have an effect only if the WebView is capable of scrolling.
   ///The default value is [AndroidOverScrollMode.OVER_SCROLL_IF_CONTENT_SCROLLS].
-  AndroidOverScrollMode? overScrollMode;
+  AndroidOverScrollMode overScrollMode;
 
   ///Informs WebView of the network state.
   ///This is used to set the JavaScript property `window.navigator.isOnline` and generates the online/offline event as specified in HTML5, sec. 5.7.7.
-  bool? networkAvailable;
+  bool networkAvailable;
 
   ///Specifies the style of the scrollbars. The scrollbars can be overlaid or inset.
   ///When inset, they add to the padding of the view. And the scrollbars can be drawn inside the padding area or on the edge of the view.
@@ -196,24 +196,24 @@ class AndroidInAppWebViewOptions
   ///you can use SCROLLBARS_INSIDE_OVERLAY or SCROLLBARS_INSIDE_INSET. If you want them to appear at the edge of the view, ignoring the padding,
   ///then you can use SCROLLBARS_OUTSIDE_OVERLAY or SCROLLBARS_OUTSIDE_INSET.
   ///The default value is [AndroidScrollBarStyle.SCROLLBARS_INSIDE_OVERLAY].
-  AndroidScrollBarStyle? scrollBarStyle;
+  AndroidScrollBarStyle scrollBarStyle;
 
   ///Sets the position of the vertical scroll bar.
   ///The default value is [AndroidVerticalScrollbarPosition.SCROLLBAR_POSITION_DEFAULT].
-  AndroidVerticalScrollbarPosition? verticalScrollbarPosition;
+  AndroidVerticalScrollbarPosition verticalScrollbarPosition;
 
   ///Defines the delay in milliseconds that a scrollbar waits before fade out.
-  int? scrollBarDefaultDelayBeforeFade;
+  int scrollBarDefaultDelayBeforeFade;
 
   ///Defines whether scrollbars will fade when the view is not scrolling.
   ///The default value is `true`.
   bool scrollbarFadingEnabled;
 
   ///Defines the scrollbar fade duration in milliseconds.
-  int? scrollBarFadeDuration;
+  int scrollBarFadeDuration;
 
   ///Sets the renderer priority policy for this WebView.
-  RendererPriorityPolicy? rendererPriorityPolicy;
+  RendererPriorityPolicy rendererPriorityPolicy;
 
   ///Sets whether the default Android error page should be disabled.
   ///The default value is `false`.
@@ -222,22 +222,22 @@ class AndroidInAppWebViewOptions
   ///Sets the vertical scrollbar thumb color.
   ///
   ///**NOTE**: available on Android 29+.
-  Color? verticalScrollbarThumbColor;
+  Color verticalScrollbarThumbColor;
 
   ///Sets the vertical scrollbar track color.
   ///
   ///**NOTE**: available on Android 29+.
-  Color? verticalScrollbarTrackColor;
+  Color verticalScrollbarTrackColor;
 
   ///Sets the horizontal scrollbar thumb color.
   ///
   ///**NOTE**: available on Android 29+.
-  Color? horizontalScrollbarThumbColor;
+  Color horizontalScrollbarThumbColor;
 
   ///Sets the horizontal scrollbar track color.
   ///
   ///**NOTE**: available on Android 29+.
-  Color? horizontalScrollbarTrackColor;
+  Color horizontalScrollbarTrackColor;
 
   AndroidInAppWebViewOptions({
     this.textZoom = 100,

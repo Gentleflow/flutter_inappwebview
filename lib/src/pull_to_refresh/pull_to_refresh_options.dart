@@ -7,30 +7,30 @@ class PullToRefreshOptions {
   bool enabled;
 
   ///The color of the refresh control.
-  Color? color;
+  Color color;
 
   ///The background color of the refresh control.
-  Color? backgroundColor;
+  Color backgroundColor;
 
   ///The distance to trigger a sync in dips.
   ///
   ///**NOTE**: Available only on Android.
-  int? distanceToTriggerSync;
+  int distanceToTriggerSync;
 
   ///The distance in pixels that the refresh indicator can be pulled beyond its resting position.
   ///
   ///**NOTE**: Available only on Android.
-  int? slingshotDistance;
+  int slingshotDistance;
 
   ///The size of the refresh indicator.
   ///
   ///**NOTE**: Available only on Android.
-  AndroidPullToRefreshSize? size;
+  AndroidPullToRefreshSize size;
 
   ///The title text to display in the refresh control.
   ///
   ///**NOTE**: Available only on iOS.
-  IOSNSAttributedString? attributedTitle;
+  IOSNSAttributedString attributedTitle;
 
   PullToRefreshOptions(
       {this.enabled = true,

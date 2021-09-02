@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 import '../in_app_webview/in_app_webview_controller.dart';
 import '../types.dart';
 
@@ -12,13 +14,13 @@ class WebStorage {
   ///Represents `window.sessionStorage`.
   SessionStorage sessionStorage;
 
-  WebStorage({required this.localStorage, required this.sessionStorage});
+  WebStorage({@required this.localStorage, @required this.sessionStorage});
 }
 
 ///Class that represents a single web storage item of the JavaScript `window.sessionStorage` and `window.localStorage` objects.
 class WebStorageItem {
   ///Item key.
-  String? key;
+  String key;
 
   ///Item value.
   dynamic value;
@@ -45,7 +47,7 @@ class WebStorageItem {
 ///Class that provides methods to manage the JavaScript [Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage) object.
 ///It is used by [LocalStorage] and [SessionStorage].
 class Storage {
-  late InAppWebViewController _controller;
+  InAppWebViewController _controller;
 
   ///The web storage type: `window.sessionStorage` or `window.localStorage`.
   WebStorageType webStorageType;
@@ -55,7 +57,7 @@ class Storage {
   }
 
   ///Returns an integer representing the number of data items stored in the Storage object.
-  Future<int?> length() async {
+  Future<int> length() async {
     var result = await _controller.evaluateJavascript(source: """
     window.$webStorageType.length;
     """);
@@ -63,7 +65,7 @@ class Storage {
   }
 
   ///When passed a [key] name and [value], will add that key to the storage, or update that key's value if it already exists.
-  Future<void> setItem({required String key, required dynamic value}) async {
+  Future<void> setItem({@required String key, @required dynamic value}) async {
     var encodedValue = json.encode(value);
     await _controller.evaluateJavascript(source: """
     window.$webStorageType.setItem("$key", ${value is String ? encodedValue : "JSON.stringify($encodedValue)"});
@@ -71,7 +73,7 @@ class Storage {
   }
 
   ///When passed a [key] name, will return that key's value, or `null` if the key does not exist, in the given Storage object.
-  Future<dynamic> getItem({required String key}) async {
+  Future<dynamic> getItem({@required String key}) async {
     var itemValue = await _controller.evaluateJavascript(source: """
     window.$webStorageType.getItem("$key");
     """);
@@ -88,7 +90,7 @@ class Storage {
   }
 
   ///When passed a [key] name, will remove that key from the given Storage object if it exists.
-  Future<void> removeItem({required String key}) async {
+  Future<void> removeItem({@required String key}) async {
     await _controller.evaluateJavascript(source: """
     window.$webStorageType.removeItem("$key");
     """);
@@ -98,7 +100,7 @@ class Storage {
   Future<List<WebStorageItem>> getItems() async {
     var webStorageItems = <WebStorageItem>[];
 
-    List<Map<dynamic, dynamic>>? items =
+    List<Map<dynamic, dynamic>> items =
         (await _controller.evaluateJavascript(source: """
 (function() {
   var webStorageItems = [];
@@ -136,7 +138,7 @@ class Storage {
 
   ///When passed a number [index], returns the name of the nth key in a given Storage object.
   ///The order of keys is user-agent defined, so you should not rely on it.
-  Future<String> key({required int index}) async {
+  Future<String> key({@required int index}) async {
     var result = await _controller.evaluateJavascript(source: """
     window.$webStorageType.key($index);
     """);

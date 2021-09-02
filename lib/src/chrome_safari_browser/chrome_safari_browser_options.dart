@@ -29,10 +29,10 @@ class ChromeSafariBrowserOptions {
 ///Class that represents the options that can be used for an [ChromeSafariBrowser] window.
 class ChromeSafariBrowserClassOptions {
   ///Android-specific options.
-  AndroidChromeCustomTabsOptions? android;
+  AndroidChromeCustomTabsOptions android;
 
   ///iOS-specific options.
-  IOSSafariOptions? ios;
+  IOSSafariOptions ios;
 
   ChromeSafariBrowserClassOptions({this.android, this.ios}) {
     this.android = this.android ?? AndroidChromeCustomTabsOptions();

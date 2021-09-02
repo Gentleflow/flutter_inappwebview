@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/src/util.dart';
 
@@ -12,7 +13,7 @@ class ChromeSafariBrowserAlreadyOpenedException implements Exception {
   ChromeSafariBrowserAlreadyOpenedException([this.message]);
 
   String toString() {
-    Object? message = this.message;
+    Object message = this.message;
     if (message == null) return "ChromeSafariBrowserAlreadyOpenedException";
     return "ChromeSafariBrowserAlreadyOpenedException: $message";
   }
@@ -24,7 +25,7 @@ class ChromeSafariBrowserNotOpenedException implements Exception {
   ChromeSafariBrowserNotOpenedException([this.message]);
 
   String toString() {
-    Object? message = this.message;
+    Object message = this.message;
     if (message == null) return "ChromeSafariBrowserNotOpenedException";
     return "ChromeSafariBrowserNotOpenedException: $message";
   }
@@ -38,11 +39,11 @@ class ChromeSafariBrowserNotOpenedException implements Exception {
 ///(you can read more about it here: https://developers.google.com/web/android/custom-tabs/best-practices#applications_targeting_android_11_api_level_30_or_above).
 class ChromeSafariBrowser {
   ///View ID used internally.
-  late final String id;
+  String id;
 
   Map<int, ChromeSafariBrowserMenuItem> _menuItems = new HashMap();
   bool _isOpened = false;
-  late MethodChannel _channel;
+  MethodChannel _channel;
   static const MethodChannel _sharedChannel =
       const MethodChannel('com.pichillilorenzo/flutter_chromesafaribrowser');
 
@@ -71,7 +72,7 @@ class ChromeSafariBrowser {
         String title = call.arguments["title"];
         int id = call.arguments["id"].toInt();
         if (this._menuItems[id] != null) {
-          this._menuItems[id]!.action(url, title);
+          this._menuItems[id].action(url, title);
         }
         break;
       default:
@@ -85,7 +86,7 @@ class ChromeSafariBrowser {
   ///
   ///[options]: Options for the [ChromeSafariBrowser].
   Future<void> open(
-      {required Uri url, ChromeSafariBrowserClassOptions? options}) async {
+      {@required Uri url, ChromeSafariBrowserClassOptions options}) async {
     assert(url.toString().isNotEmpty);
     this.throwIsAlreadyOpened(message: 'Cannot open $url!');
 
@@ -172,7 +173,7 @@ class ChromeSafariBrowserMenuItem {
   final void Function(String url, String title) action;
 
   ChromeSafariBrowserMenuItem(
-      {required this.id, required this.label, required this.action});
+      {@required this.id, @required this.label, @required this.action});
 
   Map<String, dynamic> toMap() {
     return {"id": id, "label": label};
