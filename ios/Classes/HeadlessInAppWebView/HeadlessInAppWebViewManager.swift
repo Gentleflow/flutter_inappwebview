@@ -65,6 +65,8 @@ public class HeadlessInAppWebViewManager: NSObject, FlutterPlugin {
 
     public static func loadUrl(id: String, params: [String: Any?]) {
         let headlessInAppWebView = HeadlessInAppWebViewManager.webViews[id]
-        headlessInAppWebView?.flutterWebView.loadUrl(params: params as NSDictionary)
+        if headlessInAppWebView != nil {
+            headlessInAppWebView!.flutterWebView?.loadUrl(params: params as NSDictionary)
+        }
     }
 }
