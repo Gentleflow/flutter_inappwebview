@@ -128,8 +128,8 @@ public class FlutterWebViewController: NSObject, FlutterPlatformView {
 
     public func loadUrl(params: NSDictionary) {
          let initialUrlRequest = params["initialUrlRequest"] as? [String: Any?]
-         if(webView != nil){
-             load(initialUrlRequest: initialUrlRequest)
+         if(webView != nil) {
+             load(initialUrlRequest: initialUrlRequest, initialFile: nil, initialData: nil)
          }
     }
     
