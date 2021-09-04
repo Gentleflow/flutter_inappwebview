@@ -18,12 +18,13 @@ public class HeadlessInAppWebView : FlutterMethodCallDelegate {
         self.flutterWebView = flutterWebView
         self.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_headless_inappwebview_" + id,
                                        binaryMessenger: SwiftFlutterPlugin.instance!.registrar!.messenger())
+        print("InAppWebView HeadlessInAppWebView - init \(id)")
         self.channel?.setMethodCallHandler(self.handle)
     }
     
     public override func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        print("HeadlessInAppWebView - handle \(call.method)")
         let arguments = call.arguments as? NSDictionary
-        
         switch call.method {
         case "dispose":
             dispose()
@@ -87,6 +88,7 @@ public class HeadlessInAppWebView : FlutterMethodCallDelegate {
     }
     
     public func dispose() {
+        print("HeadlessInAppWebView - dispose")
         channel?.setMethodCallHandler(nil)
         channel = nil
         HeadlessInAppWebViewManager.webViews.removeValue(forKey: id)

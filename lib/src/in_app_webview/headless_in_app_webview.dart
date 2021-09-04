@@ -178,7 +178,8 @@ class HeadlessInAppWebView implements WebView {
       return;
     }
     Map<String, dynamic> args = <String, dynamic>{};
-    await _channel.invokeMethod('dispose', args);
+    args.putIfAbsent('id', () => id);
+    await _sharedChannel.invokeMethod('dispose', args);
     _started = false;
     _running = false;
   }

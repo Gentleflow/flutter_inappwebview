@@ -32,6 +32,7 @@ public class HeadlessInAppWebViewManager: NSObject, FlutterPlugin {
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let arguments = call.arguments as? NSDictionary
         let id: String = arguments!["id"] as! String
+        print("HeadlessInAppWebViewManager - handle \(call.method)")
 
         switch call.method {
             case "run":
@@ -42,6 +43,10 @@ public class HeadlessInAppWebViewManager: NSObject, FlutterPlugin {
             case "loadUrl":
                 let params = arguments!["params"] as! [String: Any?]
                 HeadlessInAppWebViewManager.loadUrl(id: id, params: params)
+                result(true)
+                break
+            case "dispose":
+                HeadlessInAppWebViewManager.dispose(id: id)
                 result(true)
                 break
             default:
@@ -67,6 +72,14 @@ public class HeadlessInAppWebViewManager: NSObject, FlutterPlugin {
         let headlessInAppWebView = HeadlessInAppWebViewManager.webViews[id]
         if headlessInAppWebView != nil {
             headlessInAppWebView!.flutterWebView?.loadUrl(params: params as NSDictionary)
+        }
+    }
+    
+    public static func dispose(id: String) {
+        var headlessInAppWebView = HeadlessInAppWebViewManager.webViews[id]
+        if headlessInAppWebView != nil {
+            headlessInAppWebView!.dispose()
+            headlessInAppWebView = nil
         }
     }
 }

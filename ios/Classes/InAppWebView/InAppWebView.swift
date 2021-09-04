@@ -2893,6 +2893,7 @@ if(window.\(JAVASCRIPT_BRIDGE_NAME)[\(_callHandlerID)] != null) {
             webMessageListener.dispose()
         }
         webMessageListeners.removeAll()
+        print("InAppWebView - dispose \(windowId)")
         if windowId == nil {
             configuration.userContentController.removeAllPluginScriptMessageHandlers()
             configuration.userContentController.removeScriptMessageHandler(forName: "onCallAsyncJavaScriptResultBelowIOS14Received")
@@ -2931,9 +2932,11 @@ if(window.\(JAVASCRIPT_BRIDGE_NAME)[\(_callHandlerID)] != null) {
         navigationDelegate = nil
         scrollView.delegate = nil
         isPausedTimersCompletionHandler = nil
+        channel?.setMethodCallHandler(nil)
         channel = nil
         SharedLastTouchPointTimestamp.removeValue(forKey: self)
         callAsyncJavaScriptBelowIOS14Results.removeAll()
+        print("InAppWebView - dispose \(configuration.userContentController.userScripts.count)")
         super.removeFromSuperview()
     }
     
