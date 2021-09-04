@@ -10,8 +10,8 @@ description: Demonstrates how to use the flutter_inappwebview plugin.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0-0 <3.0.0"
-  flutter: ">=1.22.2"
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.20.0"
 
 dependencies:
   flutter:
@@ -19,11 +19,11 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.0
   flutter_downloader: ^1.5.2
-  path_provider: ^2.0.0-nullsafety
+  path_provider: ^1.6.28
   permission_handler: ^5.1.0+2
-  url_launcher: ^6.0.0-nullsafety.4
+  url_launcher: ^5.7.10
   # connectivity: ^0.4.5+6
   flutter_inappwebview:
     path: ../
@@ -33,8 +33,8 @@ dev_dependencies:
     sdk: flutter
   flutter_driver:
     sdk: flutter
-  integration_test:
-    sdk: flutter
+#  integration_test:
+#    sdk: flutter
   # integration_test: ^1.0.2+1
 #  integration_test:
 #    git:
