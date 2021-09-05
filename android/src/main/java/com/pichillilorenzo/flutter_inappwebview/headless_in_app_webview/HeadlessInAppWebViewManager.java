@@ -63,6 +63,11 @@ public class HeadlessInAppWebViewManager implements MethodChannel.MethodCallHand
             }
             result.success(true);
             break;
+            case "dispose":{
+                dispose(id);
+            }
+            result.success(true);
+            break;
             default:
                 result.notImplemented();
         }
@@ -83,6 +88,12 @@ public class HeadlessInAppWebViewManager implements MethodChannel.MethodCallHand
         HeadlessInAppWebView webView = HeadlessInAppWebViewManager.webViews.get(id);
         if (webView == null) return;
         webView.flutterWebView.loadUrl(params);
+    }
+
+    public void dispose(String id) {
+        HeadlessInAppWebView webView = HeadlessInAppWebViewManager.webViews.get(id);
+        if (webView == null) return;
+        webView.dispose();
     }
 
     public void dispose() {
